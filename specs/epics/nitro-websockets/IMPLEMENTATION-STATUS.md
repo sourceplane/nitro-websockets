@@ -4,7 +4,7 @@
 |---|---|---|
 | WS0 — the spec | ✅ | WS-1 |
 | WS1 — the room on Workers | ✅ | WS-2 |
-| WS2 — a baseline | planned | WS-3 |
+| WS2 — a baseline | ✅ | WS-3, tagged `baseline-v1` |
 
 ## Departures from the upstream starter
 

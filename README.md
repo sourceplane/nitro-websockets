@@ -5,9 +5,9 @@ Vercel's [Nitro + WebSockets Starter](https://github.com/vercel/examples/tree/ma
 sees each other's cursors live, with presence and emoji reactions over one
 WebSocket — running as one **Cloudflare Worker** whose room is a **Durable
 Object**, built by Nitro's own `cloudflare_durable` preset (in place of the
-Vercel Functions WebSockets beta), deployed by
-[Orun](https://github.com/sourceplane/orun) to stage and prod on every merge.
-Packaging it as an Orun baseline is the next milestone (WS2).
+Vercel Functions WebSockets beta), and packaged as an **Orun baseline**: one
+command takes a new app from nothing to live on stage and prod, in its own
+repository, under its own name — in ONE landing.
 
 The template's code is the code: the React page, the wire protocol, and the
 one `defineWebSocketHandler` at `/api/ws`. What the port adds is the preset in
@@ -15,12 +15,49 @@ one `defineWebSocketHandler` at `/api/ws`. What the port adds is the preset in
 wrapper, a test package, the deploy contract, an `/api/health` route the
 deploy smoke-tests, and one change the room needs to survive the Durable
 Object hibernating (below); what it swaps is the platform's name and links in
-the page. See
+the page. What the baseline adds is everything needed to make a copy of it
+somebody else's — built the way
+[cirrus-baseline](https://github.com/sourceplane/cirrus-baseline) is. See
 [`specs/epics/nitro-websockets`](specs/epics/nitro-websockets/README.md)
 for the design, the milestones and the as-built status.
 
 The example is MIT-licensed (vercel/examples); its licence ships with the app
 as `apps/web/LICENSE.md`.
+
+## Instantiating an app
+
+```bash
+git clone --depth 1 --branch <baseline-tag> https://github.com/sourceplane/nitro-websockets
+cd nitro-websockets
+orun new --blueprint repo-blueprint.yaml --out ~/apps/acme-room --run-hooks --resume \
+  --set reponame=acme-room --set productname="Acme Room" \
+  --set githuborg=acme-inc --set subdomain=<workers-dev-subdomain>
+```
+
+Or, once the platform's registry lists it, from the Orun console (Baselines →
+`nitro-websockets` → Build). Two phases — `01-product` (the repository, its CI and
+the whole app in one pull request, deployed to stage and prod by one
+convergence, smoke-tested) and `02-docs` (the live deployment recorded) —
+each landing one pull request in the new repository.
+**[BOOTSTRAP.md](BOOTSTRAP.md)** is the operator guide;
+[docs/phases/](docs/phases/README.md) has a page per phase.
+
+The new repository receives the **app only** — the Worker, its tests, its CI,
+its tooling, a README of its own and its operating contract — renamed
+throughout to the app's name, repository and Cloudflare Worker. None of this
+repository's machinery ships, and nothing that ships names it.
+
+| What makes it a baseline | Where |
+|---|---|
+| The console card (inputs, secrets, programme) | `blueprint.yaml` |
+| The build document (modules, phases, hooks) | `repo-blueprint.yaml` |
+| This tree's identity, and the bootstrap's task contracts | `.baseline/` |
+| The rename engine | `tooling/rebrand/rebrand.mjs` |
+| The bootstrap's helpers (deferrals, redeploy marker, work-tree strip) | `tooling/bootstrap/` |
+| The deployment-record renderer | `hooks/render-deployment-docs.sh` |
+| The app's README and context pack | `.baseline/product/README.md`, `ai/context/` |
+| The baseline's tests: contract, leak, offline bootstrap, end to end | `testing/`, `.github/workflows/baseline.yml` |
+| Cutting a `baseline-vN` tag | `.github/workflows/tag.yml` |
 
 ## What is here (the app)
 
@@ -96,3 +133,5 @@ drives the room through crossws's adapter across a simulated wake.
 | Workflow | What it runs | Ships to an app |
 |---|---|---|
 | `ci.yml` | the Orun pipeline, and the only workflow an app carries: `orun plan --changed`, then one job per lane. A pull request runs the verify lanes (the Worker built by Vite and Nitro, type-checked and dry-deployed per environment; the tests' `quick-check` lane installs and checks the package, it does not run them), except the bootstrap's own landings (`orun/BASE-*`), where `plan` alone is the check; a merge deploys stage → prod. It plans nothing while `intent.yaml` names the placeholder workspace `ws_CHANGE_ME`, as this repository does. A manual run (Orunbase's Deploy button, or Run workflow on `main`) plans the environment and components it names under the push-to-main trigger, so they deploy as a merge deploys them | yes |
+| `baseline.yml` | the baseline's own tiers: contract tests, the blueprint read by the pinned orun, the leak gate, the offline bootstrap, the app built, dry-deployed, served and read route by route, and real WebSocket clients in the room | no |
+| `tag.yml` | cuts a `baseline-vN` tag (manual) | no |
