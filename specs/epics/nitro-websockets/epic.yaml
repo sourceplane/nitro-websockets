@@ -1,0 +1,31 @@
+# The epic's declaration. metadata.name equals the directory name; metadata.key
+# is the task-key prefix this epic reserves (WS → WS-1, WS-2, …). Owner, target
+# date and health are the platform's — never written here.
+apiVersion: orun.io/v1
+kind: Epic
+metadata:
+  name: nitro-websockets
+  key: WS
+spec:
+  title: "Vercel's Nitro + WebSockets Starter on Cloudflare Workers"
+  summary: "Vercel's Nitro + WebSockets Starter — live cursors, presence and reactions over one WebSocket on a Nitro v3 + React page — runs as one Cloudflare Worker whose room is a Durable Object of hibernatable WebSockets, built by Vite and Nitro's own cloudflare_durable preset, the room's state kept with its sockets so it survives the object hibernating, inside the Cirrus baseline's repository conventions, and becomes an Orun baseline that takes a new realtime app from nothing to live on stage and prod in one landing."
+  state: started
+  milestones:
+    - name: "WS0 — the spec"
+      exitCriteria:
+        - "the repository is born with its intent, CI, tooling and spec index, and this doc set and the task contracts are on main"
+      tasks: [WS-1]
+    - name: "WS1 — the room on Workers"
+      exitCriteria:
+        - "apps/web is the upstream app (the React page, the wire protocol, the one WebSocket handler at /api/ws), built by Vite and the cloudflare_durable preset into the Worker and its Static Assets that the committed wrangler.jsonc names, every upgrade sent to one Durable Object, with an /api/health route and one name seam"
+        - "each connection's identity lives in its socket's attachment and the roster is read from the live sockets, so the room keeps working after its Durable Object hibernates"
+        - "`pnpm typecheck`, `pnpm lint`, `pnpm test` and `pnpm build` are green, the tests driving the room through crossws's own Cloudflare adapter across a simulated hibernation"
+        - "`wrangler dev` over the build serves the page and real WebSocket clients see each other's joins, cursors, reactions and leaves, before and after the room idles past a wake"
+        - "the README says how to run, test and deploy it, and how every Vercel piece maps to Cloudflare"
+      tasks: [WS-2]
+    - name: "WS2 — a baseline"
+      exitCriteria:
+        - "blueprint.yaml (the console card) and repo-blueprint.yaml (the build) take a new realtime app from nothing to live on stage and prod in one landing, then record it"
+        - "an app built from it carries the app only, renamed throughout to its own name, repository and Worker, with the example's licence intact"
+        - "Baseline CI is green: contract tests, generated component docs, the blueprint read by the pinned orun, the leak gate, the offline bootstrap and the end-to-end tier — the stage lane's steps in a staged job tree, the Worker smoke-tested (health and WebSocket handshake), every route read and real clients in the room"
+      tasks: [WS-3]
