@@ -7,6 +7,6 @@ folder is the adoption; the merge creates the epic in the workspace.
 
 | Epic | Cluster | Status | What it is |
 |------|---------|--------|------------|
-| [`nitro-websockets/`](./nitro-websockets/) | **WS** | In progress (WS0) | Vercel's Nitro + WebSockets Starter, its page and room kept, built by Nitro's cloudflare_durable preset into one Cloudflare Worker whose room is a Durable Object — and an Orun baseline that instantiates it in one landing (WS2) |
+| [`nitro-websockets/`](./nitro-websockets/) | **WS** | In progress (WS1: the site on Workers) | Vercel's Nitro + WebSockets Starter, its page and room kept, built by Nitro's cloudflare_durable preset into one Cloudflare Worker whose room is a Durable Object — and an Orun baseline that instantiates it in one landing (WS2) |
 
 As-built ≠ intent: what shipped lives in each epic's `IMPLEMENTATION-STATUS.md`.
