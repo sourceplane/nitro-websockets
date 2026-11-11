@@ -12,7 +12,7 @@ else's app in one landing.**
 
 | | |
 |---|---|
-| Status | In progress — WS1 on main: the site runs on Workers |
+| Status | ✅ Shipped (`baseline-v1`) — proven offline in Baseline CI; not yet live (risk WS-A) |
 | Upstream | [vercel/examples `websockets/nitro`](https://github.com/vercel/examples/tree/main/websockets/nitro) (MIT), at `de86723` (2026-10-16) |
 | Reference | [nitro-boilerplate](https://github.com/sourceplane/nitro-boilerplate) — the same Nitro on a plain Worker, scaffolding, tests and bootstrap; [commerce](https://github.com/sourceplane/commerce) — a Durable Object declared in wrangler |
 | Key | `WS` |

@@ -9,7 +9,7 @@ metadata:
 spec:
   title: "Vercel's Nitro + WebSockets Starter on Cloudflare Workers"
   summary: "Vercel's Nitro + WebSockets Starter — live cursors, presence and reactions over one WebSocket on a Nitro v3 + React page — runs as one Cloudflare Worker whose room is a Durable Object of hibernatable WebSockets, built by Vite and Nitro's own cloudflare_durable preset, the room's state kept with its sockets so it survives the object hibernating, inside the Cirrus baseline's repository conventions, and becomes an Orun baseline that takes a new realtime app from nothing to live on stage and prod in one landing."
-  state: started
+  state: completed
   milestones:
     - name: "WS0 — the spec"
       exitCriteria:
