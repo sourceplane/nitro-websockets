@@ -1,0 +1,17 @@
+apiVersion: orun.io/v1
+kind: TaskContract
+metadata:
+  name: WS-2
+  title: "The room on Workers"
+spec:
+  goal: Vercel's Nitro + WebSockets Starter runs as one Cloudflare Worker — the template's page and room built by Vite and Nitro's cloudflare_durable preset, every upgrade sent to one Durable Object, the room's state kept with its sockets so it survives hibernation — with its tests, and its README saying how it maps to Vercel
+  affects:
+    - apps/web
+    - tests/web
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - README.md
+  doneWhen:
+    - pnpm typecheck, lint, test and build are green
+    - wrangler dev over the build serves the page and real WebSocket clients see each other, before and after the room idles past a wake
+  gates: []
